@@ -10,17 +10,19 @@ sns.set_theme()  # This will set a nice seaborn theme without requiring the styl
 
 try:
     # Read the data
-    df = pd.read_csv('data/nft_features.csv')
+    path = "../model/big_data.csv"
+    df = pd.read_csv(path)
+    print(df.head())
     
     # Select relevant features and target
     features = ['floor_price', 'total_volume', 'num_owners', 'avg_sentiment',
-                'positive_tweets', 'negative_tweets', 'neutral_tweets']
+                'positive_tweets', 'negative_tweets', 'neutral_tweets', 'rarity_rank']
     target = 'sale_price_eth'
     
     # Create a figure for correlation matrix
-    plt.figure(figsize=(12, 8))
+    plt.figure(figsize=(10, 10))
     correlation_matrix = df[features + [target]].corr()
-    sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', center=0, fmt='.2f')
+    sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', center=0, fmt='.2f', square=True)
     plt.title('Correlation Matrix of Features and Target')
     plt.tight_layout()
     plt.savefig('correlation_matrix.png')
@@ -85,6 +87,6 @@ try:
     print("\nEDA completed! Check the generated plots in the current directory.")
     
 except FileNotFoundError:
-    print("Error: Could not find the data file. Please make sure 'data/nft_features.csv' exists.")
+    print(f"Error: Could not find the data file. Please make sure '{path}' exists.")
 except Exception as e:
     print(f"An error occurred: {str(e)}")
